@@ -29,21 +29,19 @@ sign:
 # 	-- If running in dev mode or standalone mode, put user data in the script path
 # 	self.userPath = GetScriptPath().."/"
 # ```
-pob: load_pob luacurl frontend
+pob: luacurl frontend
 	rm -rf PathOfBuildingBuild; \
 	cp -rf PathOfBuilding PathOfBuildingBuild; \
 	pushd PathOfBuildingBuild; \
-	bash ../editPathOfBuildingBuild.sh; \
+	patch -p1 -E < ../devmode-patch.diff; \
+	unzip -jo runtime-win32.zip lua/xml.lua lua/base64.lua lua/sha1.lua ;\
+	cp ../lcurl.so . ;\
+	mv src/* . ;\
+	rmdir src ;\
 	popd
 
 frontend:
 	meson setup -Dbuildtype=release --prefix=${DIR}/PathOfBuilding.app --bindir=Contents/MacOS build
-
-load_pob:
-	git clone https://github.com/PathOfBuildingCommunity/PathOfBuilding.git; \
-	pushd PathOfBuilding; \
-	git add . && git fetch && git reset --hard origin/dev; \
-	popd
 
 luacurl:
 	pushd Lua-cURLv3; \
