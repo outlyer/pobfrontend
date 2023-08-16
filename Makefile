@@ -52,7 +52,7 @@ luacurl:
 # curl is used since mesonInstaller.sh copies over the shared library dylib
 # dylibbundler is used to copy over dylibs that lcurl.so uses
 tools:
-	brew install qt@5 luajit zlib meson curl dylibbundler
+	brew install qt@5 luajit zlib meson
 
 clean:
 	rm -rf PathOfBuildingBuild PathOfBuilding.app Lua-cURLv3 lcurl.so build
