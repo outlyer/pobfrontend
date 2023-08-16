@@ -54,10 +54,5 @@ luacurl:
 tools:
 	brew install qt@5 luajit zlib meson curl dylibbundler
 
-# We don't usually modify the PathOfBuilding directory, so there's rarely a
-# need to delete it. We separate it out to a separate task.
-fullyclean: clean
-	rm -rf PathOfBuilding
-
 clean:
 	rm -rf PathOfBuildingBuild PathOfBuilding.app Lua-cURLv3 lcurl.so build
