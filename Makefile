@@ -13,9 +13,8 @@ all: frontend pob
 
 # Sign with the first available identity
 sign:
-	echo 'Signing with the first available identity'; \
-	rm -rf PathOfBuilding.app/Contents/MacOS/spec/TestBuilds/3.13; \
-	codesign --force --deep --sign $$(security find-identity -v -p codesigning | awk 'FNR == 1 {print $$2}') PathOfBuilding.app; \
+	rm -rf PathOfBuilding.app/Contents/MacOS/spec/TestBuilds/3.13;
+	codesign --force --deep --sign $$(security find-identity -v -p codesigning | awk 'FNR == 1 {print $$2}') PathOfBuilding.app;
 	codesign -d -v PathOfBuilding.app
 
 pob: luacurl frontend

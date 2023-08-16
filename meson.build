@@ -27,5 +27,5 @@ if build_machine.system() == 'darwin'
     install_data('pobLogo.icns', install_dir : 'Contents/Resources')
     install_data('Info.plist', install_dir : 'Contents')
     install_data('pobWrapper.sh', install_dir : 'Contents/MacOS')
-    #meson.add_install_script('mesonInstaller.sh')
+    meson.add_install_script('mesonInstaller.sh')
 endif

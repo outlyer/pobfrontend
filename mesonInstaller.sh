@@ -11,6 +11,6 @@ mkdir -p "${MESON_INSTALL_PREFIX}/Contents/Frameworks"
 # This fixes the error:
 # "Symbol not found: _curl_easy_option_by_id" since that didn't exist in older
 # cURL libraries.
-echo 'Bundling dylibs for lcurl.so'
-cd "${MESON_INSTALL_PREFIX}/Contents"
-dylibbundler --overwrite-dir --create-dir --bundle-deps --fix-file MacOS/lcurl.so
+#echo 'Bundling dylibs for lcurl.so'
+#cd "${MESON_INSTALL_PREFIX}/Contents"
+#dylibbundler --overwrite-dir --create-dir --bundle-deps --fix-file MacOS/lcurl.so
