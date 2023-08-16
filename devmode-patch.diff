@@ -1,0 +1,36 @@
+diff --git a/src/Modules/Main.lua b/src/Modules/Main.lua
+index a5740c51..5e788918 100644
+--- a/src/Modules/Main.lua
++++ b/src/Modules/Main.lua
+@@ -44,11 +44,11 @@ function main:Init()
+ 	self.modes["LIST"] = LoadModule("Modules/BuildList")
+ 	self.modes["BUILD"] = LoadModule("Modules/Build")
+ 
+-	if launch.devMode or (GetScriptPath() == GetRuntimePath() and not launch.installedMode) then
++	if false then
+ 		-- If running in dev mode or standalone mode, put user data in the script path
+ 		self.userPath = GetScriptPath().."/"
+ 	else
+-		self.userPath = GetUserPath().."/Path of Building/"
++		self.userPath = GetUserPath( ) .. "/Documents/Path of Building/"
+ 		MakeDir(self.userPath)
+ 	end
+ 	self.defaultBuildPath = self.userPath.."Builds/"
+@@ -191,7 +191,7 @@ function main:Init()
+ 	self.controls.versionLabel.label = function()
+ 		return "^8Version: "..launch.versionNumber..(launch.versionBranch == "dev" and " (Dev)" or launch.versionBranch == "beta" and " (Beta)" or "")
+ 	end
+-	self.controls.devMode = new("LabelControl", {"BOTTOMLEFT",self.anchorMain,"BOTTOMLEFT"}, 0, -26, 0, 20, colorCodes.NEGATIVE.."Dev Mode")
++	self.controls.devMode = new("LabelControl", {"BOTTOMLEFT",self.anchorMain,"BOTTOMLEFT"}, 0, -26, 0, 20, colorCodes.NEGATIVE.."")
+ 	self.controls.devMode.shown = function()
+ 		return launch.devMode
+ 	end
+@@ -206,7 +206,7 @@ function main:Init()
+ 	self.mainBarHeight = 58
+ 	self.toastMessages = { }
+ 
+-	if launch.devMode and GetTime() >= 0 and GetTime() < 15000 then
++	if false and GetTime() >= 0 and GetTime() < 15000 then
+ 		t_insert(self.toastMessages, [[
+ ^xFF7700Warning: ^7Developer Mode active!
+ The program is currently running in developer
