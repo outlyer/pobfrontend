@@ -1,3 +1,5 @@
+#define GL_SILENCE_DEPRECATION
+
 #ifndef MAIN_H
 #define MAIN_H
 #include <QFontMetrics>
