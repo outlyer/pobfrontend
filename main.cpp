@@ -812,7 +812,8 @@ DrawStringCmd::DrawStringCmd(float X, float Y, int Align, int Size, int Font, co
             break;
         }
         QFont font(fontName);
-        font.setPixelSize(Size + pobwindow->fontFudge);
+        font.setFamily(font.defaultFamily());
+        font.setPixelSize(Size + -2);
         QFontMetrics fm(font);
         QSize size = fm.size(0, text);
 
@@ -919,7 +920,8 @@ static int l_DrawStringWidth(lua_State* L)
         return 1;
     }
 
-    QFont font(fontName);
+    QFont font;
+    font.setFamily(font.defaultFamily());
     font.setPixelSize(fontsize + pobwindow->fontFudge);
     QFontMetrics fm(font);
     lua_pushinteger(L, fm.size(0, text).width());
@@ -938,6 +940,7 @@ static int l_DrawStringCursorIndex(lua_State* L)
 
     int fontsize = lua_tointeger(L, 1);
     QString fontName = lua_tostring(L, 2);
+
     if (fontName == "VAR") {
         fontName = "Liberation Sans";
     } else if (fontName == "VAR BOLD") {
@@ -950,7 +953,8 @@ static int l_DrawStringCursorIndex(lua_State* L)
     text.remove(colourCodes);
 
     QStringList texts = text.split("\n");
-    QFont font(fontName);
+    QFont font;
+    font.setFamily(font.defaultFamily());
     font.setPixelSize(fontsize + pobwindow->fontFudge);
     QFontMetrics fm(font);
     int curX = lua_tointeger(L, 4);
@@ -1610,8 +1614,9 @@ int main(int argc, char **argv)
 {
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
-    QGuiApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
-    qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "0");
+//    QGuiApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+ //   qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "0");
 #endif //__APPLE__
     
     QGuiApplication app{argc, argv};
@@ -1764,7 +1769,7 @@ int main(int argc, char **argv)
     if (result != 0) {
         lua_error(L);
     }
-    pobwindow->resize(800, 600);
+    pobwindow->resize(1440, 900);
     pobwindow->show();
 
     // Add the bundled fonts
