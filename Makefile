@@ -23,6 +23,7 @@ pob: luacurl frontend
 	pushd PathOfBuildingBuild; \
 	patch -p1 -E < ../devmode-patch.diff; \
 	unzip -qjo runtime-win32.zip lua/xml.lua lua/base64.lua lua/sha1.lua ;\
+	rm runtime-win32.zip ;\
 	cp ../lcurl.so . ;\
 	mv src/* . ;\
 	rmdir src ;\
