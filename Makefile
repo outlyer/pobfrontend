@@ -14,6 +14,9 @@ all: frontend pob
 # Sign with the first available identity
 sign:
 	rm -rf PathOfBuilding.app/Contents/MacOS/spec/TestBuilds/3.13;
+	rm -rf PathOfBuilding.app/Contents/MacOS/runtime/*.exe
+	rm -rf PathOfBuilding.app/Contents/MacOS/runtime/*.dll
+	rm -rf PathOfBuilding.app/Contents/MacOS/runtime/SimpleGraphic
 	codesign --force --deep --sign $$(security find-identity -v -p codesigning | awk 'FNR == 1 {print $$2}') PathOfBuilding.app;
 	codesign -d -v PathOfBuilding.app
 
