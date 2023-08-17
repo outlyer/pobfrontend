@@ -38,7 +38,10 @@ luacurl:
 	popd
 
 tools:
-	brew install qt@5 luajit zlib meson
+	brew install qt@5 luajit zlib meson create-dmg
+
+dmg:
+	create-dmg ../PathOfBuilding-2.31.2.dmg PathOfBuilding.app
 
 clean:
 	rm -rf PathOfBuildingBuild PathOfBuilding.app lcurl.so build
