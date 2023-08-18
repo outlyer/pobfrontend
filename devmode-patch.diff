@@ -1,7 +1,7 @@
-diff --git a/src/Modules/Main.lua b/src/Modules/Main.lua
+diff --git PathOfBuildingBuild/src/Modules/Main.lua PathOfBuildingBuild/src/Modules/Main.lua
 index a5740c51..5e788918 100644
---- a/src/Modules/Main.lua
-+++ b/src/Modules/Main.lua
+--- PathOfBuildingBuild/src/Modules/Main.lua
++++ PathOfBuildingBuild/src/Modules/Main.lua
 @@ -44,11 +44,11 @@ function main:Init()
  	self.modes["LIST"] = LoadModule("Modules/BuildList")
  	self.modes["BUILD"] = LoadModule("Modules/Build")
