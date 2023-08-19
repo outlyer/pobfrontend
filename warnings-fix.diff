@@ -1,0 +1,81 @@
+diff --git a/src/lceasy.c b/src/lceasy.c
+index ad48022..f90aaf0 100644
+--- a/src/lceasy.c
++++ b/src/lceasy.c
+@@ -200,6 +200,7 @@ static int lcurl_easy_cleanup_storage(lua_State *L, lcurl_easy_t *p){
+   for(i = 0; i < LCURL_LIST_COUNT; ++i){
+     p->lists[i] = LUA_NOREF;
+   }
++  return 0;
+ }
+ 
+ static int lcurl_easy_cleanup(lua_State *L){
+@@ -1509,7 +1510,7 @@ static int lcurl_xferinfo_callback(void *arg, curl_off_t dltotal, curl_off_t dln
+       #if LCURL_CURL_VER_GE(7,68,0)
+         if(ret != (size_t)CURL_PROGRESSFUNC_CONTINUE)
+       #endif
+-        if(ret == 0) ret = 1; else ret = 0;
++      ret = ret == 0 ? 1 : 0;
+     }
+   }
+ 
+diff --git a/src/lcmime.c b/src/lcmime.c
+index 90fd6b4..0bb3694 100644
+--- a/src/lcmime.c
++++ b/src/lcmime.c
+@@ -183,7 +183,7 @@ static int lcurl_mime_part_assing_table(lua_State *L, int part, int t){
+     assert(top == lua_gettop(L));
+   }
+   else{
+-    for(i=0;method = lcurl_mime_part_fields[i]; ++i){
++    for(i=0; (method = lcurl_mime_part_fields[i]) != NULL; ++i){
+       lua_getfield(L, t, method);
+       if(!lua_isnil(L, -1)){
+         int ret = lcurl_mime_part_assign(L, part, method);
+@@ -220,15 +220,15 @@ static lcurl_mime_part_t* lcurl_mime_parts_append(lcurl_mime_t *m, lcurl_mime_pa
+   return p;
+ }
+ 
+-static lcurl_mime_part_t* lcurl_mime_parts_find(lcurl_mime_t *m, lcurl_mime_part_t *p){
+-  lcurl_mime_part_t *ptr;
+-
+-  for(ptr = m->parts; ptr; ptr = ptr->next){
+-    if(ptr == p) return p;
+-  }
+-
+-  return NULL;
+-}
++// static lcurl_mime_part_t* lcurl_mime_parts_find(lcurl_mime_t *m, lcurl_mime_part_t *p){
++//  lcurl_mime_part_t *ptr;
++//
++//  for(ptr = m->parts; ptr; ptr = ptr->next){
++//    if(ptr == p) return p;
++//  }
++//
++//  return NULL;
++// } 
+ 
+ int lcurl_mime_create(lua_State *L, int error_mode){
+   //! @todo make this function as method of easy handle
+@@ -639,8 +639,6 @@ static const struct luaL_Reg lcurl_mime_part_methods[] = {
+   {"filename",             lcurl_mime_part_filename                  },
+   {"type",                 lcurl_mime_part_type                      },
+   {"encoder",              lcurl_mime_part_encoder                   },
+-  
+-
+   {"free",                 lcurl_mime_part_free                      },
+   {"__gc",                 lcurl_mime_part_free                      },
+   {"__tostring",           lcurl_mime_part_to_s                      },
+diff --git a/src/lcutils.c b/src/lcutils.c
+index 6a406b4..2905584 100644
+--- a/src/lcutils.c
++++ b/src/lcutils.c
+@@ -355,7 +355,7 @@ void lcurl_stack_dump (lua_State *L){
+ 
+ curl_socket_t lcurl_opt_os_socket(lua_State *L, int idx, curl_socket_t def) {
+   if (lua_islightuserdata(L, idx))
+-    return (curl_socket_t)lua_touserdata(L, idx);
++    return (curl_socket_t)(intptr_t)lua_touserdata(L, idx);
+ 
+   return (curl_socket_t)lutil_optint64(L, idx, def);
+ }
