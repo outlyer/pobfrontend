@@ -1,4 +1,4 @@
-project('POB Frontend', 'cpp', default_options : ['cpp_std=c++17'])
+project('POB Frontend', 'cpp', default_options : ['cpp_std=c++17', 'warning_level=0'])
 
 qt5_dep = dependency('qt5', modules : ['Gui','Core','Widgets'])
 lua_dep = dependency('luajit')
