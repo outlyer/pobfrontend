@@ -798,20 +798,21 @@ DrawStringCmd::DrawStringCmd(float X, float Y, int Align, int Size, int Font, co
     if (pobwindow->stringCache.contains(cacheKey)) {
         tex = *pobwindow->stringCache[cacheKey];
     } else {
-        QString fontName;
-        switch (Font) {
-        case 1:
-            fontName = "Liberation Sans";
-            break;
-        case 2:
-            fontName = "Liberation Sans Bold";
-            break;
-        case 0:
-        default:
-            fontName = "Bitstream Vera Sans Mono";
-            break;
-        }
-        QFont font(fontName);
+//       QString fontName;
+//       switch (Font) {
+//       case 1:
+//           fontName = "Liberation Sans";
+//           break;
+//       case 2:
+//           fontName = "Liberation Sans Bold";
+//           break;
+//       case 0:
+//       default:
+//           fontName = "Bitstream Vera Sans Mono";
+//           break;
+//       }
+//        QFont font(fontName);
+        QFont font;
         font.setFamily(font.defaultFamily());
         font.setPixelSize(Size + -2);
         QFontMetrics fm(font);
@@ -899,22 +900,22 @@ static int l_DrawStringWidth(lua_State* L)
     pobwindow->LAssert(L, lua_isstring(L, 2), "DrawStringWidth() argument 2: expected string, got %t", 2);
     pobwindow->LAssert(L, lua_isstring(L, 3), "DrawStringWidth() argument 3: expected string, got %t", 3);
     int fontsize = lua_tointeger(L, 1);
-    QString fontName = lua_tostring(L, 2);
-    QString fontKey = "0";
-    if (fontName == "VAR") {
-        fontName = "Liberation Sans";
-        fontKey = "1";
-    } else if (fontName == "VAR BOLD") {
-        fontName = "Liberation Sans Bold";
-        fontKey = "2";
-    } else {
-        fontName = "Bitstream Vera Sans Mono";
-    }
+//    QString fontName = lua_tostring(L, 2);
+//    QString fontKey = "0";
+//    if (fontName == "VAR") {
+//        fontName = "Liberation Sans";
+//        fontKey = "1";
+//    } else if (fontName == "VAR BOLD") {
+//        fontName = "Liberation Sans Bold";
+//        fontKey = "2";
+//    } else {
+//        fontName = "Bitstream Vera Sans Mono";
+//    }
     QString text(lua_tostring(L, 3));
 
     text.remove(colourCodes);
 
-    QString cacheKey = (fontKey + "_" + QString::number(fontsize) + "_" + text);
+    QString cacheKey = (QString::number(fontsize) + "_" + text);
     if (pobwindow->stringCache.contains(cacheKey) && pobwindow->stringCache[cacheKey]->get()) {
         lua_pushinteger(L, (*pobwindow->stringCache[cacheKey])->width());
         return 1;
@@ -939,15 +940,15 @@ static int l_DrawStringCursorIndex(lua_State* L)
     pobwindow->LAssert(L, lua_isnumber(L, 5), "DrawStringCursorIndex() argument 5: expected number, got %t", 5);
 
     int fontsize = lua_tointeger(L, 1);
-    QString fontName = lua_tostring(L, 2);
-
-    if (fontName == "VAR") {
-        fontName = "Liberation Sans";
-    } else if (fontName == "VAR BOLD") {
-        fontName = "Liberation Sans Bold";
-    } else {
-        fontName = "Bitstream Vera Sans Mono";
-    }
+//    String fontName = lua_tostring(L, 2);
+//
+//    if (fontName == "VAR") {
+//        fontName = "Liberation Sans";
+//    } else if (fontName == "VAR BOLD") {
+//        fontName = "Liberation Sans Bold";
+//    } else {
+//        fontName = "Bitstream Vera Sans Mono";
+//    }
     QString text(lua_tostring(L, 3));
 
     text.remove(colourCodes);
@@ -1773,9 +1774,9 @@ int main(int argc, char **argv)
     pobwindow->show();
 
     // Add the bundled fonts
-    QFontDatabase::addApplicationFont(QDir::currentPath() + "/VeraMono.ttf");
-    QFontDatabase::addApplicationFont(QDir::currentPath() + "/LiberationSans-Regular.ttf");
-    QFontDatabase::addApplicationFont(QDir::currentPath() + "/LiberationSans-Bold.ttf");
+    //QFontDatabase::addApplicationFont(QDir::currentPath() + "/VeraMono.ttf");
+    //QFontDatabase::addApplicationFont(QDir::currentPath() + "/LiberationSans-Regular.ttf");
+    //QFontDatabase::addApplicationFont(QDir::currentPath() + "/LiberationSans-Bold.ttf");
     return app.exec();
 }
 
