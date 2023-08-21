@@ -7,6 +7,8 @@ export VERSION := $(shell awk '/Version number/{print $$2}' FS='"' PathOfBuildin
 
 all: frontend pob
 	ninja -C build install
+	cp -rf ${DIR}/PathOfBuildingBuild/* ${DIR}/PathOfBuilding.app/Contents/MacOS/
+	mkdir -p "${DIR}/PathOfBuilding.app/Contents/Frameworks"
 	macdeployqt ${DIR}/PathOfBuilding.app
 	sed -e 's/VERSION/${VERSION}/' Info.plist.sh > ${DIR}/PathOfBuilding.app/Contents/Info.plist
 
