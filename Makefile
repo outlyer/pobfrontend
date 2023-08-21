@@ -17,6 +17,7 @@ sign:
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/runtime/*.exe
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/runtime/*.dll
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/runtime/SimpleGraphic
+	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/docker-compose.yml
 	codesign --force --deep --sign $$(security find-identity -v -p codesigning | awk 'FNR == 1 {print $$2}') PathOfBuilding.app;
 	codesign -d -v PathOfBuilding.app
 
