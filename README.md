@@ -1,10 +1,19 @@
-PoBFrontend
-===========
+# Path of Building (macOS)
 
-A cross-platform [Path of Building](https://github.com/PathOfBuildingCommunity/PathOfBuilding) driver.
+[Path of Building](https://github.com/PathOfBuildingCommunity/PathOfBuilding) front end for modern macOS machines. 
 
-Building
---------
+## Changes in this version:
+
+- Native arm64 support
+- Uses native fonts rather than embedded ones (YMMV)
+- Larger initial window
+- Some QOL fixes like native help, changelog, etc. 
+- Builds saved to Documents instead of homedir
+
+_Caveats_
+- Tested on latest stable macOS (13.x Ventura)
+
+## Building
 
 ```sh
 # Run this only once after installing Homebrew to install dependencies
@@ -15,37 +24,19 @@ make
 
 # Optionally sign it for distribution
 make sign
+
+# Build a release dmg (requires create-dmg)
+make dmg
+
 ```
-
-### Dependencies:
-
-- [Homebrew](https://brew.sh)
-- Qt5
-- luajit
-- zlib
 
 ### Build dependencies:
 
+- [Homebrew](https://brew.sh)
 - meson
 - git
 - pkg-config
-- ninja (optional, can tell meson to generate makefiles if you prefer)
-
-### Notes:
-
-I have the following edit in my PathOfBuilding clone, stops it from saving builds even when I tell it not to:
-
-```diff
---- a/Modules/Build.lua
-+++ b/Modules/Build.lua
-@@ -599,7 +599,7 @@ function buildMode:CanExit(mode)
- end
- 
- function buildMode:Shutdown()
--       if launch.devMode and self.targetVersion and not self.abortSave then
-+       if false then --launch.devMode and self.targetVersion and not self.abortSave then
-                if self.dbFileName then
-                        self:SaveDBFile()
-                        elseif self.unsaved then
-```
-
+- ninja
+- qt5
+- luajit
+- zlib
