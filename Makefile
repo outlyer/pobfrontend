@@ -6,14 +6,13 @@ export PKG_CONFIG_PATH := $(brew --prefix qt@5)/lib/pkgconfig
 export VERSION := $(shell awk '/Version number/{print $$2}' FS='"' PathOfBuilding/manifest.xml)
 
 all: frontend pob
-	ninja -C build install
 	@cp -rf ${DIR}/PathOfBuildingBuild/* ${DIR}/PathOfBuilding.app/Contents/MacOS/
 	mkdir -p "${DIR}/PathOfBuilding.app/Contents/Frameworks"
 	macdeployqt ${DIR}/PathOfBuilding.app
 	sed -e 's/VERSION/${VERSION}/' Info.plist.sh > ${DIR}/PathOfBuilding.app/Contents/Info.plist
 
-# Sign with the first available identity
 sign:
+	# Remove extraneous files from .app
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/spec
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/runtime/*.exe
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/runtime/*.dll
@@ -22,6 +21,7 @@ sign:
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/tests/
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/*.py
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/RELEASE.md
+	# Sign with the first available identity
 	#rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/manifest.xml
 	codesign --force --deep --sign $$(security find-identity -v -p codesigning | awk 'FNR == 1 {print $$2}') PathOfBuilding.app
 	codesign -d -v PathOfBuilding.app
@@ -38,12 +38,16 @@ pob: luacurl frontend
 
 frontend:
 	meson setup -Dbuildtype=release --prefix=${DIR}/PathOfBuilding.app --bindir=Contents/MacOS build
+	ninja -C build install
 
 luacurl:
 	$(MAKE) LUA_IMPL="luajit" MAKE_ENV="env MACOSX_DEPLOYMENT_TARGET='11.0'" -C Lua-cURLv3
 
 tools:
 	brew install qt@5 luajit zlib meson create-dmg
+
+localtest:
+	cp -rf ${DIR}/PathOfBuildingBuild/* ${DIR}/build/
 
 dmg:
 	create-dmg ../PathOfBuilding-${VERSION}.dmg PathOfBuilding.app
