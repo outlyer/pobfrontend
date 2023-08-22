@@ -7,18 +7,22 @@ export VERSION := $(shell awk '/Version number/{print $$2}' FS='"' PathOfBuildin
 
 all: frontend pob
 	ninja -C build install
-	cp -rf ${DIR}/PathOfBuildingBuild/* ${DIR}/PathOfBuilding.app/Contents/MacOS/
+	@cp -rf ${DIR}/PathOfBuildingBuild/* ${DIR}/PathOfBuilding.app/Contents/MacOS/
 	mkdir -p "${DIR}/PathOfBuilding.app/Contents/Frameworks"
 	macdeployqt ${DIR}/PathOfBuilding.app
 	sed -e 's/VERSION/${VERSION}/' Info.plist.sh > ${DIR}/PathOfBuilding.app/Contents/Info.plist
 
 # Sign with the first available identity
 sign:
-	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/spec/TestBuilds/3.13
+	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/spec
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/runtime/*.exe
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/runtime/*.dll
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/runtime/SimpleGraphic
 	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/docker-compose.yml
+	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/tests/
+	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/*.py
+	rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/RELEASE.md
+	#rm -rf ${DIR}/PathOfBuilding.app/Contents/MacOS/manifest.xml
 	codesign --force --deep --sign $$(security find-identity -v -p codesigning | awk 'FNR == 1 {print $$2}') PathOfBuilding.app
 	codesign -d -v PathOfBuilding.app
 
@@ -42,7 +46,7 @@ tools:
 	brew install qt@5 luajit zlib meson create-dmg
 
 dmg:
-	create-dmg ../PathOfBuilding-2.31.2.dmg PathOfBuilding.app
+	create-dmg ../PathOfBuilding-${VERSION}.dmg PathOfBuilding.app
 
 clean:
 	rm -rf PathOfBuildingBuild PathOfBuilding.app build

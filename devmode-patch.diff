@@ -1,5 +1,5 @@
 diff --git PathOfBuildingBuild/src/Modules/Main.lua PathOfBuildingBuild/src/Modules/Main.lua
-index 026fe6f9..e499ccb4 100644
+index 026fe6f9..7de83b43 100644
 --- PathOfBuildingBuild/src/Modules/Main.lua
 +++ PathOfBuildingBuild/src/Modules/Main.lua
 @@ -44,11 +44,11 @@ function main:Init()
@@ -34,6 +34,15 @@ index 026fe6f9..e499ccb4 100644
  		t_insert(self.toastMessages, [[
  ^xFF7700Warning: ^7Developer Mode active!
  The program is currently running in developer
+@@ -933,7 +933,7 @@ end
+ 
+ function main:OpenUpdatePopup()
+ 	local changeList = { }
+-	local changelogName = launch.devMode and "../changelog.txt" or "changelog.txt"
++	local changelogName = "changelog.txt"
+ 	local changelogFile = io.open(changelogName, "r")
+ 	if changelogFile then
+ 		changelogFile:close()
 @@ -971,7 +971,7 @@ function main:OpenAboutPopup(helpSectionIndex)
  	local textSize, titleSize, popupWidth = 16, 24, 810
  	local changeList = { }
@@ -43,3 +52,12 @@ index 026fe6f9..e499ccb4 100644
  	local changelogFile = io.open(changelogName, "r")
  	if changelogFile then
  		changelogFile:close()
+@@ -992,7 +992,7 @@ function main:OpenAboutPopup(helpSectionIndex)
+ 	local helpSections = { }
+ 	local helpSectionHeights = { }
+ 	do
+-		local helpName = launch.devMode and "../help.txt" or "help.txt"
++		local helpName = "help.txt"
+ 		local helpFile = io.open(helpName, "r")
+ 		if helpFile then
+ 			helpFile:close()
