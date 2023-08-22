@@ -44,7 +44,7 @@ luacurl:
 	$(MAKE) LUA_IMPL="luajit" MAKE_ENV="env MACOSX_DEPLOYMENT_TARGET='11.0'" -C Lua-cURLv3
 
 tools:
-	brew install qt@5 luajit zlib meson create-dmg
+	brew install qt@5 luajit meson create-dmg
 
 localtest:
 	cp -rf ${DIR}/PathOfBuildingBuild/* ${DIR}/build/
