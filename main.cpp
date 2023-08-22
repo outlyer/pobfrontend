@@ -1615,9 +1615,12 @@ int main(int argc, char **argv)
 {
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
+// When called directly as a binary the application is not scaled, this is solely determined by the Info.plist in the app
+// bundle. I need to find a better way to be able to use this from the cli.
+//
 //    QGuiApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
- //   qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "0");
+//    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+//    qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "0");
 #endif //__APPLE__
     
     QGuiApplication app{argc, argv};
