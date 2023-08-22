@@ -39,4 +39,3 @@ make dmg
 - ninja
 - qt5
 - luajit
-- zlib
